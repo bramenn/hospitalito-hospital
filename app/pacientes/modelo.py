@@ -1,8 +1,7 @@
-from sqlalchemy import Column, Integer, String
-import db
-
-
 from pydantic import BaseModel
+from sqlalchemy import Column, Integer, String
+
+from .. import db
 
 
 class Paciente(db.Base):

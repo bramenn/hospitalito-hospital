@@ -1,16 +1,12 @@
 from fastapi import APIRouter
-from .modelo import (
-    RegistroMedicoIn,
-    HistoriaClinicaOut,
-    HistoriaClinicaIn,
-    RecetaMedicaOut,
-)
+
 from .consultas import (
-    obtener_historia_clinica_cc_db,
     crear_historia_clinica_db,
     crear_registro_medico_db,
+    obtener_historia_clinica_cc_db,
     receta_entregada_id_db,
 )
+from .modelo import HistoriaClinicaIn, HistoriaClinicaOut, RecetaMedicaOut, RegistroMedicoIn
 
 router = APIRouter()
 

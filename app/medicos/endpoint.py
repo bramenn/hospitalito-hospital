@@ -1,7 +1,7 @@
 from fastapi import APIRouter
-from .consultas import obtener_medico_cc_db, crear_medico_db
 
-from .modelo import MedicoOut, MedicoIn
+from .consultas import crear_medico_db, obtener_medico_cc_db
+from .modelo import MedicoIn, MedicoOut
 
 router = APIRouter()
 

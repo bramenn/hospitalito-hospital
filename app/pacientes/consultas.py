@@ -1,16 +1,15 @@
-import db
 from fastapi import status
-from .modelo import Paciente, PacienteIn, PacienteOut
 from fastapi.exceptions import HTTPException
+
+from .. import db
+from .modelo import Paciente, PacienteIn, PacienteOut
 
 
 def obtener_paciente_cc_db(cc: str) -> PacienteOut:
     paciente = db.session.query(Paciente).where(Paciente.cedula == cc).first()
 
     if not paciente:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Paciente no encontrado"
-        )
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Paciente no encontrado")
 
     return parsear_paciente(paciente)
 

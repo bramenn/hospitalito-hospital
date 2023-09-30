@@ -1,31 +1,29 @@
-import db
+from aws_client import enviar_evento_reportar_receta
 from fastapi import status
-from .modelo import (
-    HistoriaClinica,
-    RegistroMedicoIn,
-    RecetaMedica,
-    RegistroMedico,
-    RegistroMedicoOut,
-    HistoriaClinicaOut,
-    RecetaMedicaOut,
-    HistoriaClinicaIn,
-    RecetaMedicaIn,
-)
-from pacientes.consultas import obtener_paciente_cc_db
-from pacientes.modelo import PacienteOut
-from medicos.consultas import obtener_medico_cc_db
 from fastapi.exceptions import HTTPException
 
-from aws_client import enviar_evento_reportar_receta
+from .. import db
+from ..medicos.consultas import obtener_medico_cc_db
+from ..pacientes.consultas import obtener_paciente_cc_db
+from ..pacientes.modelo import PacienteOut
+from .modelo import (
+    HistoriaClinica,
+    HistoriaClinicaIn,
+    HistoriaClinicaOut,
+    RecetaMedica,
+    RecetaMedicaIn,
+    RecetaMedicaOut,
+    RegistroMedico,
+    RegistroMedicoIn,
+    RegistroMedicoOut,
+)
 
 
 def obtener_historia_clinica_cc_db(cc: str) -> HistoriaClinicaOut:
     paciente: PacienteOut = obtener_paciente_cc_db(cc=cc)
 
     historia_clinica = (
-        db.session.query(HistoriaClinica)
-        .where(HistoriaClinica.id_paciente == paciente.id)
-        .first()
+        db.session.query(HistoriaClinica).where(HistoriaClinica.id_paciente == paciente.id).first()
     )
 
     if not historia_clinica:
@@ -38,9 +36,7 @@ def obtener_historia_clinica_cc_db(cc: str) -> HistoriaClinicaOut:
 
 
 def obtener_registro_medico_id_db(id: int) -> RegistroMedicoOut:
-    registro_medico = (
-        db.session.query(RegistroMedico).where(RegistroMedico.id == id).first()
-    )
+    registro_medico = db.session.query(RegistroMedico).where(RegistroMedico.id == id).first()
 
     if not registro_medico:
         raise HTTPException(
@@ -64,9 +60,7 @@ def obtener_receta_medica_id_db(id: int) -> RecetaMedicaOut:
 def crear_historia_clinica_db(
     nueva_historia_clinica: HistoriaClinicaIn,
 ) -> HistoriaClinicaOut:
-    paciente: PacienteOut = obtener_paciente_cc_db(
-        cc=nueva_historia_clinica.cedula_paciente
-    )
+    paciente: PacienteOut = obtener_paciente_cc_db(cc=nueva_historia_clinica.cedula_paciente)
     historia_clinica = None
 
     try:
@@ -205,9 +199,7 @@ def parsear_registro_medico(registro_medico: RegistroMedico) -> RegistroMedicoOu
         descripcion=registro_medico.descripcion,
         id_medico=registro_medico.id_medico,
         created_date=registro_medico.created_date,
-        recetas=[
-            parsear_receta_medica(receta) for receta in registro_medico.recetas_medicas
-        ],
+        recetas=[parsear_receta_medica(receta) for receta in registro_medico.recetas_medicas],
     )
 
 

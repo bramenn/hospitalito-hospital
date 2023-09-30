@@ -1,16 +1,15 @@
-import db
 from fastapi import status
-from .modelo import Medico, MedicoOut, MedicoIn
 from fastapi.exceptions import HTTPException
+
+from .. import db
+from .modelo import Medico, MedicoIn, MedicoOut
 
 
 def obtener_medico_cc_db(cc: str) -> MedicoOut:
     medico = db.session.query(Medico).where(Medico.cedula == cc).first()
 
     if not medico:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="Medico no encontrado"
-        )
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Medico no encontrado")
 
     return parsear_medico(medico)
 

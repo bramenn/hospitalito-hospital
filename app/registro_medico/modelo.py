@@ -1,14 +1,14 @@
-from typing import List, Optional
 import datetime
-from sqlalchemy import Column, Integer, String, Boolean, DateTime
-from sqlalchemy.sql.schema import ForeignKey
-from sqlalchemy.orm import relationship
-import db
-
-from medicos.modelo import Medico
-from pacientes.modelo import PacienteOut
+from typing import List, Optional
 
 from pydantic import BaseModel
+from sqlalchemy import Boolean, Column, DateTime, Integer, String
+from sqlalchemy.orm import relationship
+from sqlalchemy.sql.schema import ForeignKey
+
+from .. import db
+from ..medicos.modelo import Medico
+from ..pacientes.modelo import PacienteOut
 
 
 class RecetaMedica(db.Base):
