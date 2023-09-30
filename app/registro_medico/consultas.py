@@ -1,8 +1,8 @@
-from aws_client import enviar_evento_reportar_receta
 from fastapi import status
 from fastapi.exceptions import HTTPException
 
 from .. import db
+from ..aws_client import enviar_evento_reportar_receta
 from ..medicos.consultas import obtener_medico_cc_db
 from ..pacientes.consultas import obtener_paciente_cc_db
 from ..pacientes.modelo import PacienteOut
